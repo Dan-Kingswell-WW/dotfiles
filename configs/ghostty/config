@@ -1,0 +1,49 @@
+# Treat Option as Alt so Neovim receives <A-...> key events properly
+macos-option-as-alt = true
+
+# Unbind Cmd keys so they pass through to Neovim via the kitty keyboard
+# protocol. Neovim 0.11+ and Ghostty both support this protocol, so
+# Neovim will receive these as <D-Right>, <D-Left>, etc. natively.
+keybind = super+arrow_right=unbind
+keybind = super+arrow_left=unbind
+keybind = super+arrow_up=unbind
+keybind = super+arrow_down=unbind
+keybind = super+backspace=unbind
+keybind = super+enter=unbind
+keybind = super+shift+enter=unbind
+keybind = super+shift+k=unbind
+keybind = super+shift+d=unbind
+keybind = super+z=unbind
+keybind = super+shift+z=unbind
+keybind = super+d=unbind
+keybind = super+e=unbind
+
+# Cmd+Shift+Arrow: split terminal in that direction
+keybind = super+shift+arrow_down=new_split:down
+keybind = super+shift+arrow_right=new_split:right
+keybind = super+shift+arrow_up=new_split:up
+keybind = super+shift+arrow_left=new_split:left
+
+# New splits inherit the focused split's working directory
+split-inherit-working-directory = true
+
+# Cmd+Shift+/: send F21 escape sequence to Neovim for terminal toggle.
+# text: action bypasses macOS intercepting Cmd+? as the Help menu shortcut.
+keybind = super+shift+/=text:\x1b[20;2~
+
+# Cmd+.: send F22 escape sequence to Neovim for manual completion.
+# text: action avoids Ghostty/macOS swallowing Cmd+.
+keybind = super+.=text:\x1b[21;2~
+
+# Unbind Alt+Arrow so they pass through to Neovim as <A-Right>, <A-Left>, etc.
+keybind = alt+arrow_right=unbind
+keybind = alt+arrow_left=unbind
+keybind = alt+arrow_up=unbind
+keybind = alt+arrow_down=unbind
+keybind = alt+backspace=unbind
+
+# Unbind Cmd+/ so it passes through to Neovim as <D-/> via kitty protocol
+keybind = super+/=unbind
+
+# Cmd+A: send Escape to Neovim
+keybind = super+a=esc:

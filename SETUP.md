@@ -1,0 +1,133 @@
+# Dotfiles Setup
+
+This repo is the source of truth for the local config of:
+
+- Ghostty
+- Neovim
+- Hammerspoon
+- Zen
+
+This repo is designed to behave like your old standalone Neovim config repo, but for multiple apps in one place.
+
+The repo contains the real config files. Your machine's normal config paths are symlinked to those files and directories.
+
+## How it works
+
+Run:
+
+```bash
+./scripts/bootstrap.sh
+```
+
+The bootstrap script:
+
+- finds your active Zen profile
+- backs up any existing local config it is about to replace
+- creates symlinks from the normal config paths to this repo
+
+After that, your normal edit locations are repo-backed.
+
+For example:
+
+- `~/.config/nvim` points to `~/dotfiles/configs/nvim`
+- `~/.config/ghostty` points to `~/dotfiles/configs/ghostty`
+
+That means the normal workflow is now:
+
+1. Change config on your current machine.
+2. Git sees those edits in this repo immediately.
+3. Commit and push the repo.
+4. On another machine, pull the repo.
+5. Run `./scripts/bootstrap.sh`.
+
+## What gets synced
+
+The bootstrap script links these locations:
+
+- `configs/ghostty` -> `~/.config/ghostty`
+- `configs/nvim` -> `~/.config/nvim`
+- `configs/hammerspoon` -> `~/.hammerspoon`
+- `configs/zen/profile/chrome` -> Zen profile `chrome` directory
+- `configs/zen/profile/prefs.js` -> Zen profile `prefs.js`
+- `configs/zen/profile/zen-keyboard-shortcuts.json` -> Zen keyboard shortcuts
+- `configs/zen/profile/zen-themes.json` -> Zen themes config
+
+For Zen, the script reads `~/Library/Application Support/zen/profiles.ini` and links the repo files into whichever profile is marked as the active/default one.
+
+## Commands
+
+From the repo root:
+
+```bash
+./scripts/bootstrap.sh
+```
+
+## Typical workflow
+
+### Make and save changes
+
+```bash
+cd ~/dotfiles
+git add .
+git commit -m "update dotfiles"
+git push
+```
+
+### Apply changes on another machine
+
+```bash
+git clone <your-repo-url> ~/dotfiles
+cd ~/dotfiles
+./scripts/bootstrap.sh
+```
+
+## First-time setup on another Mac
+
+1. Install Ghostty, Neovim, Hammerspoon, and Zen.
+2. Open Zen once so it creates its profile files.
+3. Clone this repo to `~/dotfiles` or another location.
+4. Run `./scripts/bootstrap.sh`.
+5. Restart the apps.
+
+## Safety and backups
+
+Before `bootstrap` replaces anything, the script creates a backup in:
+
+```bash
+~/.dotfiles-backups/<timestamp>/
+```
+
+That backup contains the previous local versions of the config so you can restore them manually if needed.
+
+## Important notes
+
+- This is a symlink-based single-repo setup.
+- After bootstrap, edit the normal config paths and commit from this repo.
+- Zen still includes `prefs.js`, so some machine-specific browser state may come across.
+- The old per-app git repos are no longer needed once the live paths point here.
+
+## Repo structure
+
+```text
+dotfiles/
+  configs/
+    ghostty/
+    hammerspoon/
+    nvim/
+    zen/
+      profile/
+        chrome/
+        prefs.js
+        zen-keyboard-shortcuts.json
+        zen-themes.json
+  scripts/
+    bootstrap.sh
+  README.md
+  SETUP.md
+```
+
+## If something changes later
+
+If you add another app config to manage, extend `scripts/bootstrap.sh` and add a new folder under `configs/`.
+
+If Zen changes how it stores profiles, update the profile detection logic in `scripts/bootstrap.sh`.
