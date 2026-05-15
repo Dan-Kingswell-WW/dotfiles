@@ -11,9 +11,30 @@ This repo is designed to behave like your old standalone Neovim config repo, but
 
 The repo contains the real config files. Your machine's normal config paths are symlinked to those files and directories.
 
+## Install Everything With Homebrew
+
+On a fresh Mac, run:
+
+```bash
+./scripts/install.sh
+```
+
+That script:
+
+- installs Homebrew if it is missing
+- installs `neovim`, `ghostty`, `hammerspoon`, and `zen` from `Brewfile`
+- launches Zen once so it creates a profile
+- runs `./scripts/bootstrap.sh`
+
 ## How it works
 
 Run:
+
+```bash
+./scripts/install.sh
+```
+
+or, if the apps are already installed:
 
 ```bash
 ./scripts/bootstrap.sh
@@ -38,7 +59,7 @@ That means the normal workflow is now:
 2. Git sees those edits in this repo immediately.
 3. Commit and push the repo.
 4. On another machine, pull the repo.
-5. Run `./scripts/bootstrap.sh`.
+5. Run `./scripts/install.sh`.
 
 ## What gets synced
 
@@ -59,6 +80,7 @@ For Zen, the script reads `~/Library/Application Support/zen/profiles.ini` and l
 From the repo root:
 
 ```bash
+./scripts/install.sh
 ./scripts/bootstrap.sh
 ```
 
@@ -78,16 +100,14 @@ git push
 ```bash
 git clone <your-repo-url> ~/dotfiles
 cd ~/dotfiles
-./scripts/bootstrap.sh
+./scripts/install.sh
 ```
 
 ## First-time setup on another Mac
 
-1. Install Ghostty, Neovim, Hammerspoon, and Zen.
-2. Open Zen once so it creates its profile files.
-3. Clone this repo to `~/dotfiles` or another location.
-4. Run `./scripts/bootstrap.sh`.
-5. Restart the apps.
+1. Clone this repo to `~/dotfiles` or another location.
+2. Run `./scripts/install.sh`.
+3. Restart the apps.
 
 ## Safety and backups
 
@@ -121,6 +141,7 @@ dotfiles/
         zen-keyboard-shortcuts.json
         zen-themes.json
   scripts/
+    install.sh
     bootstrap.sh
   README.md
   SETUP.md

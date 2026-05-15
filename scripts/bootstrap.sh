@@ -23,7 +23,7 @@ detect_zen_profile_dir() {
   profiles_ini="$zen_root/profiles.ini"
 
   if [[ ! -f "$profiles_ini" ]]; then
-    log "Zen profile not found. Open Zen once before running this script."
+    log "Zen profile not found. Open Zen once before running this script, or use ./scripts/install.sh."
     exit 1
   fi
 
